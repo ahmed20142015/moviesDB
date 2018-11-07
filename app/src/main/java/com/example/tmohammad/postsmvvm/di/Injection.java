@@ -1,4 +1,4 @@
-package com.example.tmohammad.postsmvvm;
+package com.example.tmohammad.postsmvvm.di;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -7,7 +7,6 @@ import com.example.tmohammad.postsmvvm.api.MoviesServiceClient;
 import com.example.tmohammad.postsmvvm.data.MoviesRepository;
 import com.example.tmohammad.postsmvvm.db.MovieDatabase;
 import com.example.tmohammad.postsmvvm.db.MovieLocalCache;
-import com.example.tmohammad.postsmvvm.ui.main.ViewModelFactory;
 
 import java.util.concurrent.Executors;
 

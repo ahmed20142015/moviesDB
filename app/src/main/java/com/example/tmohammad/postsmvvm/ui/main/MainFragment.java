@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
-import com.example.tmohammad.postsmvvm.Injection;
+import com.example.tmohammad.postsmvvm.di.Injection;
 import com.example.tmohammad.postsmvvm.R;
 import com.example.tmohammad.postsmvvm.databinding.MainFragmentBinding;
-import com.example.tmohammad.postsmvvm.ui.MoviesAdapter;
-//import com.example.tmohammad.postsmvvm.ui.MoviesAdapter;
+import com.example.tmohammad.postsmvvm.ui.adapter.MoviesAdapter;
+//import com.example.tmohammad.postsmvvm.ui.adapter.MoviesAdapter;
 
 public class MainFragment extends Fragment {
 

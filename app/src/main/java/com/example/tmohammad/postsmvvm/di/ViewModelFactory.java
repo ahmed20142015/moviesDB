@@ -1,4 +1,4 @@
-package com.example.tmohammad.postsmvvm.ui.main;
+package com.example.tmohammad.postsmvvm.di;
 
 import android.arch.lifecycle.ViewModel;
 import android.arch.lifecycle.ViewModelProvider;
@@ -6,6 +6,7 @@ import android.support.annotation.NonNull;
 
 
 import com.example.tmohammad.postsmvvm.data.MoviesRepository;
+import com.example.tmohammad.postsmvvm.ui.main.MainViewModel;
 
 import java.lang.reflect.InvocationTargetException;
 

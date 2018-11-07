@@ -1,9 +1,10 @@
-package com.example.tmohammad.postsmvvm;
+package com.example.tmohammad.postsmvvm.ui.main;
 
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.example.tmohammad.postsmvvm.R;
 import com.example.tmohammad.postsmvvm.databinding.MainActivityBinding;
 import com.example.tmohammad.postsmvvm.ui.main.MainFragment;
 

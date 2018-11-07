@@ -1,4 +1,4 @@
-package com.example.tmohammad.postsmvvm;
+package com.example.tmohammad.postsmvvm.ui.adapter;
 
 import android.databinding.BindingAdapter;
 import android.graphics.drawable.Drawable;

@@ -4,6 +4,7 @@ import android.arch.paging.DataSource;
 import android.util.Log;
 
 import com.example.tmohammad.postsmvvm.model.Movie;
+import com.example.tmohammad.postsmvvm.model.Review;
 
 import java.util.List;
 import java.util.concurrent.Executor;
@@ -31,14 +32,21 @@ public class MovieLocalCache {
     /**
      * Insert a list of movies in the database, on a background thread.
      */
-    public void insert(List<Movie> movies, InsertCallback callback) {
+    public void insertMovies(List<Movie> movies, InsertCallback callback) {
         ioExecutor.execute(() -> {
             Log.d(LOG_TAG, "insert: inserting " + movies.size() + " movies");
-            movieDAO.insert(movies);
+            movieDAO.insertMovies(movies);
             callback.insertFinished();
         });
     }
 
+    public void insertReviews(List<Review> movies, InsertCallback callback) {
+        ioExecutor.execute(() -> {
+            Log.d(LOG_TAG, "insert: inserting " + movies.size() + " movies");
+            movieDAO.insertReviews(movies);
+            callback.insertFinished();
+        });
+    }
     /**
      * Request a DataSource.Factory<Integer, movie> from the Dao, based on a movie name. If the name contains
      * multiple words separated by spaces, then we're emulating the GitHub API behavior and allow
@@ -49,6 +57,11 @@ public class MovieLocalCache {
     public DataSource.Factory<Integer, Movie> moviesByName(String name) {
         // appending '%' so we can allow other characters to be before and after the query string
         return movieDAO.moviesByName("%" + name.replace(' ', '%') + "%");
+    }
+
+    public DataSource.Factory<Integer, Review> reviewByMovieId(Integer movieId) {
+        // appending '%' so we can allow other characters to be before and after the query string
+        return movieDAO.reviewsByMovieId(movieId);
     }
 
     public interface InsertCallback {

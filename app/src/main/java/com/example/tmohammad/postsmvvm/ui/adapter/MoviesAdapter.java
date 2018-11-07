@@ -5,9 +5,11 @@ import android.content.res.Resources;
 import android.support.annotation.NonNull;
 import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.tmohammad.postsmvvm.R;
 import com.example.tmohammad.postsmvvm.databinding.MovieViewItemBinding;
@@ -59,6 +61,7 @@ public class MoviesAdapter extends PagedListAdapter<Movie, MoviesAdapter.movieVi
      */
     public class movieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private final MovieViewItemBinding mDataBinding;
+        private ReviewsAdapter mReviewsAdapter;
 
         movieViewHolder(MovieViewItemBinding itemBinding) {
             super(itemBinding.getRoot());
@@ -100,5 +103,24 @@ public class MoviesAdapter extends PagedListAdapter<Movie, MoviesAdapter.movieVi
 //                }
             }
         }
+        private void initAdapter() {
+            mReviewsAdapter = new ReviewsAdapter();
+            mDataBinding.reviewList.setAdapter(mReviewsAdapter);
+
+            //Subscribing to receive the new PagedList movies
+            mViewModel.getMovies().observe(this, movies -> {
+                if (movies != null) {
+                    Log.d(LOG_TAG, "initAdapter: movie List size: " + movies.size());
+                    showEmptyList(movies.size() == 0);
+                    mMoviesAdapter.submitList(movies);
+                }
+            });
+
+            //Subscribing to receive the recent Network Errors if any
+            mViewModel.getNetworkErrors().observe(this, errorMsg -> {
+                Toast.makeText(getContext(), "\uD83D\uDE28 Wooops " + errorMsg, Toast.LENGTH_LONG).show();
+            });
+        }
+
     }
 }

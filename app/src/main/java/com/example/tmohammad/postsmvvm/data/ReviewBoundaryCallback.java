@@ -5,10 +5,12 @@ import android.arch.lifecycle.MutableLiveData;
 import android.arch.paging.PagedList;
 import android.support.annotation.NonNull;
 import android.util.Log;
+
 import com.example.tmohammad.postsmvvm.api.MovieService;
 import com.example.tmohammad.postsmvvm.api.MoviesServiceClient;
 import com.example.tmohammad.postsmvvm.db.MovieLocalCache;
 import com.example.tmohammad.postsmvvm.model.Movie;
+import com.example.tmohammad.postsmvvm.model.Review;
 
 import java.util.List;
 
@@ -17,12 +19,12 @@ import java.util.List;
  *
  * @author Kaushik N Sanji
  */
-public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> implements MoviesServiceClient.ApiCallback {
+public class ReviewBoundaryCallback extends PagedList.BoundaryCallback<Review> implements MoviesServiceClient.ApiCallback<Review> {
     //Constant used for logs
-    private static final String LOG_TAG = movieBoundaryCallback.class.getSimpleName();
+    private static final String LOG_TAG = ReviewBoundaryCallback.class.getSimpleName();
     // Constant for the Number of items in a page to be requested from the Github API
     private static final int NETWORK_PAGE_SIZE = 50;
-    private String query;
+    private Integer movieId;
     private MovieService githubService;
     private MovieLocalCache localCache;
     // Keep the last requested page. When the request is successful, increment the page number.
@@ -32,8 +34,8 @@ public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> imp
     // LiveData of network errors.
     private MutableLiveData<String> networkErrors = new MutableLiveData<>();
 
-    movieBoundaryCallback(String query, MovieService githubService, MovieLocalCache localCache) {
-        this.query = query;
+    ReviewBoundaryCallback(Integer movieId, MovieService githubService, MovieLocalCache localCache) {
+        this.movieId = movieId;
         this.githubService = githubService;
         this.localCache = localCache;
     }
@@ -42,13 +44,8 @@ public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> imp
         return networkErrors;
     }
 
-    /**
-     * Method to request data from Github API for the given search query
-     * and save the results.
-     *
-     * @param query The query to use for retrieving the moviesitories from API
-     */
-    private void requestAndSaveData(String query) {
+
+    private void requestAndSaveData(Integer movieId) {
         //Exiting if the request is in progress
         if (isRequestInProgress) return;
 
@@ -56,7 +53,7 @@ public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> imp
         isRequestInProgress = true;
 
         //Calling the client API to retrieve the movies for the given search query
-        MoviesServiceClient.getMoviesByname(githubService, query, lastRequestedPage, NETWORK_PAGE_SIZE, this);
+        MoviesServiceClient.getMovieReview(githubService, movieId, lastRequestedPage , this);
     }
 
     /**
@@ -65,7 +62,7 @@ public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> imp
     @Override
     public void onZeroItemsLoaded() {
         Log.d(LOG_TAG, "onZeroItemsLoaded: Started");
-        requestAndSaveData(query);
+        requestAndSaveData(movieId);
     }
 
     /**
@@ -77,9 +74,9 @@ public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> imp
      * @param itemAtEnd The first item of PagedList
      */
     @Override
-    public void onItemAtEndLoaded(@NonNull Movie itemAtEnd) {
+    public void onItemAtEndLoaded(@NonNull Review itemAtEnd) {
         Log.d(LOG_TAG, "onItemAtEndLoaded: Started");
-        requestAndSaveData(query);
+        requestAndSaveData(movieId);
     }
 
     /**
@@ -89,9 +86,9 @@ public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> imp
      * @param items The List of movies retrieved for the Search done
      */
     @Override
-    public void onSuccess(List<Movie> items) {
+    public void onSuccess(List<Review> items) {
         //Inserting records in the database thread
-        localCache.insert(items, () -> {
+        localCache.insertReviews(items, () -> {
             //Updating the last requested page number when the request was successful
             //and the results were inserted successfully
             lastRequestedPage++;

@@ -9,7 +9,9 @@ import android.util.Log;
 import com.example.tmohammad.postsmvvm.api.MovieService;
 import com.example.tmohammad.postsmvvm.db.MovieLocalCache;
 import com.example.tmohammad.postsmvvm.model.Movie;
+import com.example.tmohammad.postsmvvm.model.MovieReviewResult;
 import com.example.tmohammad.postsmvvm.model.MoviesSearchResult;
+import com.example.tmohammad.postsmvvm.model.Review;
 
 /**
  * moviesitory class that works with local and remote data sources.
@@ -30,7 +32,7 @@ public class MoviesRepository {
     }
 
     /**
-     * Search moviesitories whose names match the query.
+     * Search moviesRepositories whose names match the query.
      */
     public MoviesSearchResult search(String query) {
         Log.d(LOG_TAG, "search: New query: " + query);
@@ -39,7 +41,7 @@ public class MoviesRepository {
         DataSource.Factory<Integer, Movie> moviesByName = localCache.moviesByName(query);
 
         // Construct the boundary callback
-        movieBoundaryCallback boundaryCallback = new movieBoundaryCallback(query, githubService, localCache);
+        MovieBoundaryCallback boundaryCallback = new MovieBoundaryCallback(query, githubService, localCache);
         LiveData<String> networkErrors = boundaryCallback.getNetworkErrors();
 
         // Set the Page size for the Paged list
@@ -56,4 +58,28 @@ public class MoviesRepository {
         return new MoviesSearchResult(data, networkErrors);
     }
 
+    public MovieReviewResult getMovieReviews(Integer movieId) {
+        Log.d(LOG_TAG, "getMovieReviews: New query: " + movieId);
+
+        // Get data source factory from the local cache
+        DataSource.Factory<Integer, Review> reviewByMovieId = localCache.reviewByMovieId(movieId);
+
+        // Construct the boundary callback
+        ReviewBoundaryCallback boundaryCallback = new ReviewBoundaryCallback(movieId, githubService, localCache);
+
+        LiveData<String> networkErrors = boundaryCallback.getNetworkErrors();
+
+        // Set the Page size for the Paged list
+        PagedList.Config pagedConfig = new PagedList.Config.Builder()
+                .setPageSize(DATABASE_PAGE_SIZE)
+                .build();
+
+        // Get the Live Paged list
+        LiveData<PagedList<Review>> data = new LivePagedListBuilder<>(reviewByMovieId, pagedConfig)
+                .setBoundaryCallback(boundaryCallback)
+                .build();
+
+        // Get the Search result with the network errors exposed by the boundary callback
+        return new MovieReviewResult(data, networkErrors);
+    }
 }

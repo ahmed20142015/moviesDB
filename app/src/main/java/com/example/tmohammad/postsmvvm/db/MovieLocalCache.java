@@ -8,12 +8,6 @@ import com.example.tmohammad.postsmvvm.model.Movie;
 import java.util.List;
 import java.util.concurrent.Executor;
 
-/**
- * Class that handles the DAO local data source. This ensures that methods are triggered on the
- * correct executor.
- *
- * @author Kaushik N Sanji
- */
 public class MovieLocalCache {
     //Constant used for Logs
     private static final String LOG_TAG = MovieLocalCache.class.getSimpleName();

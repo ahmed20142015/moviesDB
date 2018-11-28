@@ -12,11 +12,7 @@ import com.example.tmohammad.postsmvvm.model.Movie;
 
 import java.util.List;
 
-/**
- * PagedList.BoundaryCallback class to know when to trigger the Network request for more data
- *
- * @author Kaushik N Sanji
- */
+
 public class movieBoundaryCallback extends PagedList.BoundaryCallback<Movie> implements MoviesServiceClient.ApiCallback {
     //Constant used for logs
     private static final String LOG_TAG = movieBoundaryCallback.class.getSimpleName();

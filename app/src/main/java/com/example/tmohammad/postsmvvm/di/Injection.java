@@ -10,14 +10,7 @@ import com.example.tmohammad.postsmvvm.db.MovieLocalCache;
 
 import java.util.concurrent.Executors;
 
-/**
- * Class that handles object creation.
- * <p>
- * Like this, objects can be passed as parameters in the constructors and then replaced for
- * testing, where needed.
- *
- * @author Kaushik N Sanji
- */
+
 public class Injection {
 
     /**

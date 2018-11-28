@@ -11,11 +11,6 @@ import com.example.tmohammad.postsmvvm.db.MovieLocalCache;
 import com.example.tmohammad.postsmvvm.model.Movie;
 import com.example.tmohammad.postsmvvm.model.MoviesSearchResult;
 
-/**
- * moviesitory class that works with local and remote data sources.
- *
- * @author Kaushik N Sanji
- */
 public class MoviesRepository {
     //Constant used for logs
     private static final String LOG_TAG = MoviesRepository.class.getSimpleName();

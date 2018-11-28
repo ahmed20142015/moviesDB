@@ -10,11 +10,7 @@ import com.example.tmohammad.postsmvvm.ui.main.MainViewModel;
 
 import java.lang.reflect.InvocationTargetException;
 
-/**
- * Factory for ViewModels
- *
- * @author Kaushik N Sanji
- */
+
 public class ViewModelFactory implements ViewModelProvider.Factory {
 
     private MoviesRepository moviesmoviesitory;

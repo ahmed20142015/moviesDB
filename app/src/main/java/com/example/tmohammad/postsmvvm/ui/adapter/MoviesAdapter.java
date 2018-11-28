@@ -13,10 +13,8 @@ import com.example.tmohammad.postsmvvm.R;
 import com.example.tmohammad.postsmvvm.databinding.MovieViewItemBinding;
 import com.example.tmohammad.postsmvvm.model.Movie;
 
-/**
+/*
  * Adapter for the list of moviesitories.
- *
- * @author Kaushik N Sanji
  */
 public class MoviesAdapter extends PagedListAdapter<Movie, MoviesAdapter.movieViewHolder> {
 

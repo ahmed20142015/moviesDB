@@ -7,11 +7,6 @@ import android.content.Context;
 
 import com.example.tmohammad.postsmvvm.model.Movie;
 
-/**
- * Database schema that holds the list of movies.
- *
- * @author Kaushik N Sanji
- */
 @Database(entities = {Movie.class}, version = 1, exportSchema = false)
 public abstract class MovieDatabase extends RoomDatabase {
 
